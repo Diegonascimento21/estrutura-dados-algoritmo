@@ -29,6 +29,7 @@ public class Vetor {
 	}*/
 	
 	public boolean adiciona(String elemento) { // melhorando metodo de adicionar por boolean
+		this.aumentaCapacidade();
 		if(this.tamanho < this.elementos.length) {
 			this.elementos[this.tamanho] = elemento;
 			tamanho++;
@@ -42,6 +43,8 @@ public class Vetor {
 		if (!(posicao >= 0 && posicao < tamanho)) {
 			throw new IllegalArgumentException("Erro, posição inválida");
 		}
+		
+		this.aumentaCapacidade();
 
 		/// move todos os elementos
 		for (int i = this.tamanho - 1; i >= posicao; i--) { // Add elemento em qualquer posição
@@ -52,6 +55,17 @@ public class Vetor {
 		
 		return true;
 		
+	}
+	
+	public void remove(int posicao) {
+		if (!(posicao >= 0 && posicao < tamanho)) {
+			throw new IllegalArgumentException("Erro, posição inválida");
+		}
+		
+		for(int i = posicao; i < this.tamanho - 1; i++) {
+			this.elementos[i] = this.elementos[i+1];
+		}
+		this.tamanho--;
 	}
 	
 	
@@ -82,6 +96,16 @@ public class Vetor {
 
 		return s.toString();
 
+	}
+	
+	private void aumentaCapacidade() {
+		if(this.tamanho == this.elementos.length) {
+			String[] elementosNovos = new String[this.elementos.length * 2];
+			for(int i = 0; i < this.elementos.length; i++) {
+				elementosNovos[i] = this.elementos[i];
+			}
+			this.elementos = elementosNovos;
+		}
 	}
 	
 	public String busca(int posicao) throws Exception { // pega os elementos por deter. posiçao
